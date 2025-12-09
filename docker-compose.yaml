@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - 11434:11434 # HTTP port
+    volumes:
+      - /data/ollama:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+# docker compose version of the following command:
+# docker run -d \
+#   --name ollama \
+#   --restart unless-stopped \
+#   -p 11434:11434 \
+#   --gpus all \
+#   -e NVIDIA_VISIBLE_DEVICES=all \
+#   -e NVIDIA_DRIVER_CAPABILITIES=all \
+#   -v /scratch/ollama:/root/.ollama \
+#   ollama/ollama
+
+  # reverse proxy for ollama
+  ollama-nginx:
+    image: nginx:latest
+    container_name: ollama-nginx
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    ports:
+      - 11435:11435 # HTTPS port
+
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro

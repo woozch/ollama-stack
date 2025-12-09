@@ -1,0 +1,43 @@
+# -----------------------------
+# Docker & Compose
+# -----------------------------
+*.log
+docker-compose.override.yml
+.env
+.env.*
+*.pid
+
+# -----------------------------
+# Nginx
+# -----------------------------
+nginx/*.log
+nginx/logs/
+nginx/temp/
+
+# SSL/TLS Certificates (DO NOT COMMIT)
+nginx/certs/
+nginx/certs/*.crt
+nginx/certs/*.key
+nginx/certs/*.pem
+
+# -----------------------------
+# IDE / Editor
+# -----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -----------------------------
+# OS Files
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# Backup / Temp Files
+# -----------------------------
+*.bak
+*.tmp
+*.old
+*~
